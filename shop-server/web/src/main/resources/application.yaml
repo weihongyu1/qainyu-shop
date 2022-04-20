@@ -4,3 +4,6 @@ spring:
     url: jdbc:mysql://localhost:3306/qianyu-shop?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true
     username: root
     password: root
+
+server:
+  port: 80
