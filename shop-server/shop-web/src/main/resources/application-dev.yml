@@ -1,0 +1,45 @@
+# 数据源配置
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/qianyu-shop?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+# redis 配置
+  redis:
+    host: 106.52.60.176
+    port: 6379
+    # 如果未单独配置默认为空即可
+    password: brysj$@!HHRHL
+    database: 0
+    jedis:
+      pool:
+        max-active: 50
+        max-wait: 3000
+        max-idle: 20
+        min-idle: 2
+    timeout: 5000
+  # jpa配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# 端口配置
+server:
+  port: 80
+
+# 日志配置
+logging:
+  file:
+    name: shop.log
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:SSS} [%thread] %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:SSS} === [%thread] === %-5level === %logger{50} === %msg%n'
+
+jwt:
+  header: qianyushopserver
+  secret: sdn#@!NYSQT
+  expiration: 360
+
