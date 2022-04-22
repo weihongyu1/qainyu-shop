@@ -4,7 +4,7 @@ import com.why.shopserver.user.pojo.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * UserInfo数据表操作
+ * UserInfo数据操作
  *
  * @author why
  * @create 2022-04-21 14:43

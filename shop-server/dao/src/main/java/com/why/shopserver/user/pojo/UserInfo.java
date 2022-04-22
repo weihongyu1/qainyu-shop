@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class UserInfo implements Serializable {
     /** 主键id **/
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY) //主键生成策略 , 此策略为数据库自动生成 (自动增长)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
 

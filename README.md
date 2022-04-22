@@ -144,7 +144,7 @@ make install
 安装后，您可以通过运行启动 Redis
 
 ```
-redis-server
+redis-server ./redis.conf
 ```
 
 如果成功，您将看到 Redis 的启动日志，并且 Redis 将在前台运行。
@@ -154,3 +154,5 @@ redis-server
 **如图即为redis启动成功：**
 
 <img src="https://gitee.com/vvwhyyy/pic/raw/master/img/202204201723714.png" alt="image-20220420172319911" style="zoom:50%;" />
+
+## 
