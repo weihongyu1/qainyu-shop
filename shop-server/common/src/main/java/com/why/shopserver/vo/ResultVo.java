@@ -1,9 +1,7 @@
 package com.why.shopserver.vo;
 
-import com.why.shopserver.StatusEnum;
+import com.why.shopserver.commonenum.StatusEnum;
 import lombok.Data;
-
-import java.util.Stack;
 
 /**
  * 同一封装返回结果

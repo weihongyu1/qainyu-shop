@@ -1,12 +1,14 @@
 package com.why.shopserver.certification.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.why.shopserver.StatusEnum;
+import com.why.shopserver.commonenum.StatusEnum;
 import com.why.shopserver.service.impl.UserServiceImpl;
 import com.why.shopserver.vo.ResultVo;
+import com.why.shopserver.vo.UserLoginVo;
+import com.why.shopserver.vo.UserRegisterVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
 
 /**
  * 认证接口
@@ -16,6 +18,7 @@ import java.util.Map;
  **/
 @RestController
 @RequestMapping("/auths")
+@Slf4j
 public class CertificationController {
     @Autowired
     private UserServiceImpl userService;
@@ -24,19 +27,18 @@ public class CertificationController {
 
     /**
      * 登录接口
-     * @param map
+     * @param userLogin
      * @return
      * @throws Exception
      */
     @PostMapping(value = "/login")
-    public ResultVo login(@RequestBody Map<String, String> map) throws Exception {
-        String username = map.get(USERNAME);
-        String password = map.get(PASSWORD);
-        if (StrUtil.isEmpty(username) || (StrUtil.isEmpty(password))) {
+    public ResultVo login(@RequestBody UserLoginVo userLogin) throws Exception {
+        log.info(userLogin.toString());
+        if (StrUtil.isEmpty(userLogin.getUsername()) || (StrUtil.isEmpty(userLogin.getPassword()))) {
             return ResultVo.error(StatusEnum.USERNAME_OR_PASSWORD_NULL);
         }
         try{
-            return ResultVo.success(StatusEnum.CERTIFICATION_SUCCESS,userService.login(username, password));
+            return ResultVo.success(StatusEnum.CERTIFICATION_SUCCESS,userService.login(userLogin.getUsername(), userLogin.getPassword()));
         }catch(Exception e){
             return ResultVo.error(e.getMessage());
         }
@@ -44,14 +46,13 @@ public class CertificationController {
 
     /**
      * 用户注册
-     * @param username 用户名
-     * @param password 密码
-     * @param auths 权限
+     * @param userRegister
      * @return
      */
     @PostMapping("/register")
-    public ResultVo register(String username, String password, String auths){
-        userService.register(username,password,auths);
+    public ResultVo register(@RequestBody UserRegisterVo userRegister){
+        log.info(userRegister.toString());
+        userService.register(userRegister.getUsername(), userRegister.getPassword(), userRegister.getAuths());
         return ResultVo.success(StatusEnum.REGISTER_SUCCESS);
     }
 

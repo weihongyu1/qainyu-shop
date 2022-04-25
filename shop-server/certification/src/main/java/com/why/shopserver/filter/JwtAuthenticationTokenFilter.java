@@ -1,6 +1,7 @@
 package com.why.shopserver.filter;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
 import com.why.shopserver.service.impl.UserDetailServiceImpl;
 import com.why.shopserver.util.JwtUtil;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 在用户名和密码校验前添加的过滤器，
@@ -36,6 +40,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(jwtUtil.getHeader());
+        log.info(jwt);
         if(!StrUtil.isEmpty(jwt)){
             //根据jwt获取用户名
             String username = jwtUtil.getUserNameFromToken(jwt);

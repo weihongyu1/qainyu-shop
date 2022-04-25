@@ -1,8 +1,10 @@
 package com.why.shopserver.test.usercontroller;
 
+import com.why.shopserver.commonenum.StatusEnum;
 import com.why.shopserver.user.pojo.UserInfo;
 import com.why.shopserver.user.repository.UserInfoRepository;
-import com.why.shopserver.utils.RedisUtil;
+
+import com.why.shopserver.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +23,13 @@ public class UserInfoController {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
-    @Autowired
-    private RedisUtil redisUtil;
+//    @Autowired
+//    private RedisUtil redisUtil;
+
+    @GetMapping("/hello")
+    public ResultVo hello(){
+        return ResultVo.success(StatusEnum.CERTIFICATION_SUCCESS);
+    }
 
     /**
      * 测试 jpa
@@ -38,7 +45,7 @@ public class UserInfoController {
      */
     @PostMapping("/saveUser")
     public void saveUser(){
-        redisUtil.set("why",new UserInfo(1,"why","123","123",1));
+//        redisUtil.set("why",new UserInfo(1,"why","123","123",1));
     }
 
     /**
@@ -47,6 +54,7 @@ public class UserInfoController {
      */
     @GetMapping("/getUserInfoCache")
     public UserInfo getUserInfoCache(){
-        return (UserInfo) redisUtil.get("why");
+//        return (UserInfo) redisUtil.get("why");
+        return null;
     }
 }

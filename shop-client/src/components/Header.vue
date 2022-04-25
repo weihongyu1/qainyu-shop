@@ -37,24 +37,41 @@
     <div class="nav-bottom-logo">
       <img alt="未加载" src="../assets/img/logo.png" class="img-logo">
     </div>
-    <div class="nav-bottom-link">
-      <ul>
-        <li><a>手机</a></li>
-        <li><a>笔记本</a></li>
-        <li><a>潮鞋</a></li>
-        <li><a>手表</a></li>
-        <li><a>箱包</a></li>
-        <li><a>生活家居</a></li>
-        <li><a>配饰</a></li>
-        <li><a>美妆</a></li>
-        <li><a>潮玩</a></li>
-        <li><a>艺术</a></li>
-      </ul>
+
+    <div style="height: 100%;float: left;" @mouseleave="outInfoWindow()">
+      <div class="nav-bottom-link">
+        <ul>
+          <li @mouseenter="inInfoWindow()"><a>手机</a></li>
+          <li @mouseenter="inInfoWindow()"><a>笔记本</a></li>
+          <li @mouseenter="inInfoWindow()"><a>潮鞋</a></li>
+          <li @mouseenter="inInfoWindow()"><a>手表</a></li>
+          <li @mouseenter="inInfoWindow()"><a>箱包</a></li>
+          <li @mouseenter="inInfoWindow()"><a>生活家居</a></li>
+          <li @mouseenter="inInfoWindow()"><a>配饰</a></li>
+          <li @mouseenter="inInfoWindow()"><a>美妆</a></li>
+          <li @mouseenter="inInfoWindow()"><a>潮玩</a></li>
+          <li @mouseenter="inInfoWindow()"><a>艺术</a></li>
+        </ul>
+        <div class="nav-bottom-link-info" v-show="alertInfo">
+         <div style="margin-left: 10vh;height: 100%;margin-right: 15vh;margin-top: 1rem">
+           <div v-for="item in 6" class="nav-bottom-link-info-product">
+             <div v-if="item != 6" style="border-right: 2px solid #d9d9d9">
+               <img src="../assets/img/info-1.webp" style="height: 7rem">
+             </div>
+             <div v-if="item == 6">
+               <img src="../assets/img/info-1.webp" style="height: 7rem">
+             </div>
+             <div style="text-align: center">小米手机 3100￥</div>
+           </div>
+         </div>
+        </div>
+      </div>
     </div>
+
     <div class="nav-bottom-search">
       <input type="text" placeholder="笔记本">
       <div>
-        <img alt="未加载" src="../assets/img/search.png" style="height: 1.5rem;padding: 0.8rem" @mouseout="removeActive">
+        <img alt="未加载" src="../assets/img/search.png" style="height: 1.5rem;padding: 0.8rem" @mouseover="removeActive">
       </div>
     </div>
   </div>
@@ -65,14 +82,21 @@ export default {
   name: "Header",
   data(){
     return{
-      searchImg: "E:\\文件\\毕业设计\\qainyu-shop\\shop-client\\src\\assets\\img\\search.png"
+      searchImg: "E:\\文件\\毕业设计\\qainyu-shop\\shop-client\\src\\assets\\img\\search.png",
+      alertInfo: false
     }
   },
 
   methods: {
     removeActive(){
       this.searchImg = "E:\\文件\\毕业设计\\qainyu-shop\\shop-client\\src\\assets\\img\\search.png";
-    }
+    },
+    inInfoWindow(){
+      this.alertInfo = true;
+    },
+    outInfoWindow(){
+      this.alertInfo = false;
+    },
   }
 }
 </script>
@@ -101,7 +125,7 @@ export default {
 }
 #nav-top-right:hover{
   background-color: white;
-  color: orange;
+  color: #ff8000;
   cursor:pointer;
 }
 .shop-car-left{
@@ -145,7 +169,6 @@ div{
 }
 
 .nav-bottom-link{
-  float: left;
   height: 2rem;
   margin-top: 2rem;
   margin-left: 2rem;
@@ -160,7 +183,25 @@ a{
   color: #262626;
 }
 .nav-bottom-link li a:hover{
-  color: orange;
+  color: #ff8000;
+}
+
+/* 导航链接产品 */
+.nav-bottom-link-info{
+  height: 12rem;
+  width: 100%;
+  clear: both;
+  position: absolute;
+  left: 0;
+  top: 8rem;
+  border-top: 0.1px solid  #e6e6e6;
+  box-shadow: 0px 3px 3px #e6e6e6;
+  background-color: white;
+  z-index: 999;
+}
+.nav-bottom-link-info-product{
+  float: left;
+  margin-left: 2.1rem;
 }
 
 /* 搜索框 */
@@ -190,6 +231,6 @@ a{
 .nav-bottom-search div:hover{
   border: 1px solid #bfbfbf;
   cursor: pointer;
-  background-color: orange;
+  background-color: #ff8000;
 }
 </style>

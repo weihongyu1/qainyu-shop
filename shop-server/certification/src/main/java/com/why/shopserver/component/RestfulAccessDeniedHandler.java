@@ -1,6 +1,7 @@
 package com.why.shopserver.component;
 
 import cn.hutool.json.JSONUtil;
+import com.why.shopserver.commonenum.StatusEnum;
 import com.why.shopserver.vo.ResultVo;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -25,7 +26,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
                        AccessDeniedException e) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println(JSONUtil.parse(ResultVo.error(e.getMessage())));
+        response.getWriter().println(JSONUtil.parse(ResultVo.error(StatusEnum.AUTHENTICATION_ERROR)));
         response.getWriter().flush();
     }
 }

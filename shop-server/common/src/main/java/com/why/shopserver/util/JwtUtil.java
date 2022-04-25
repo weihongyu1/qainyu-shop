@@ -26,9 +26,6 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    @Autowired
-    private RedisUtil redisUtil;
-
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
     private String secret;
@@ -42,7 +39,7 @@ public class JwtUtil {
      */
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put(CLAIM_KEY_CREATED, userDetails.getUsername());
+        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_CREATED, new Date());
         //生成Token
         return generateToken(claims);
@@ -75,7 +72,7 @@ public class JwtUtil {
         return username;
     }
     /**
-     * 从令牌中获取数据声明,如果看不懂就看谁调用它
+     * 从令牌中获取数据声明
      *
      * @param token 令牌
      * @return 数据声明
@@ -146,4 +143,22 @@ public class JwtUtil {
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }
+    //    public void setTokenToRedis(String username,String token){
+//        redisUtil.set(username,token);
+//    }
+//
+//    /**
+//     * 检查Redis中是否存在Token
+//     *
+//     * @param token Token信息
+//     * @return
+//     */
+//    public static boolean hasToken(String token) {
+//        if (StringUtils.isNotEmpty(token)) {
+//            // 去除JWT前缀
+//            token = token.substring(JWTConfig.tokenPrefix.length());
+//            return RedisUtils.hasKey(token);
+//        }
+//        return false;
+//    }
 }

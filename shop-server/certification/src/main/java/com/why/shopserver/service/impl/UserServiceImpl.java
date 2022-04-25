@@ -33,20 +33,15 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public String login(String username, String password) {
-        try{
-            //根据用户名获取 用户信息
-            UserDetails userDetails = userDetailService.loadUserByUsername(username);
-            if(!passwordEncoder.matches(password,userDetails.getPassword())){
-                throw new BadCredentialsException("密码不正确");
-            }
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-            SecurityContextHolder.getContext().setAuthentication(token);
-        }catch (AuthenticationException e){
-            log.error("用户名或者密码不正确");
-        }
-        //生成JWT
+    public String login(String username, String password) throws AuthenticationException{
+        //根据用户名获取 用户信息
         UserDetails userDetails = userDetailService.loadUserByUsername(username);
+        if(!passwordEncoder.matches(password,userDetails.getPassword())){
+            throw new BadCredentialsException("密码不正确");
+        }
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+        SecurityContextHolder.getContext().setAuthentication(token);
+        //生成JWT
         return jwtUtil.generateToken(userDetails);
     }
 

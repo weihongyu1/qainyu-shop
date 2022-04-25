@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 自定义登录逻辑
@@ -38,7 +41,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             UserLogin user = userRepository.findByUsername(username);
             //2.根据查询对象比较密码
             log.info("Compare user passwords");
-            String encode = user.getPassword();
+            String encode = passwordEncoder.encode(user.getPassword());
             //3.根据查询的对象设置权限
             log.info("Setting auths");
             return new UserLogin(user.getId(), username,encode,user.getAuths());

@@ -26,7 +26,7 @@ public class UserLogin implements UserDetails, Serializable {
     /** 主键id **/
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY) //主键生成策略 , 此策略为数据库自动生成 (自动增长)
-    @Column(name="id")
+    @Column(name="u_id")
     private Integer id;
 
     /** 用户名 **/
