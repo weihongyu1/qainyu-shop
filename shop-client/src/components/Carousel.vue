@@ -53,11 +53,14 @@ export default {
 .carousel{
   margin-left: 15vh;
   margin-right: 19.5vh;
+  overflow: hidden;
 }
 .carousel-top{
   height: 25rem;
 }
-
+ul li{
+  list-style: none;
+}
 /* 左侧导航 */
 .carousel-top-left-link{
   height: 25rem;
