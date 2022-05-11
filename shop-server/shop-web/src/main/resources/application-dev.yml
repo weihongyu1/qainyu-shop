@@ -19,12 +19,12 @@ spring:
         max-wait: 1000
         max-idle: 20
         min-idle: 2
-    timeout: 5000
+    timeout: 3000
   # jpa配置
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+#    show-sql: true
 
 # 端口配置
 server:
@@ -41,5 +41,5 @@ logging:
 jwt:
   header: Authorization
   secret: sdn#@!NYSQT
-  expiration: 360
+  expiration: 3600
 

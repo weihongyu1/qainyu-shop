@@ -1,6 +1,7 @@
 package com.why.shopserver.user.pojo;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -21,6 +22,7 @@ import java.util.List;
 @Table(name = "user_login")
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class UserLogin implements UserDetails, Serializable {
 
     /** 主键id **/
@@ -38,8 +40,8 @@ public class UserLogin implements UserDetails, Serializable {
     private String password;
 
     /** 权限 **/
-    @Column(name = "permission")
-    private String auths;
+    @Column(name = "role")
+    private String role;
 
     public Integer getId() {
         return id;
@@ -51,7 +53,7 @@ public class UserLogin implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(this.auths);
+        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(this.role);
         return authorities;
     }
 
@@ -85,7 +87,7 @@ public class UserLogin implements UserDetails, Serializable {
         return true;
     }
 
-    public String getAuths() {
-        return auths;
+    public String getRole() {
+        return role;
     }
 }

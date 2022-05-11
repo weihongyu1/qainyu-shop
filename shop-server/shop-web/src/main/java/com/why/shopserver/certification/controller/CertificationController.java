@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 认证接口
  *
@@ -33,12 +36,13 @@ public class CertificationController {
      */
     @PostMapping(value = "/login")
     public ResultVo login(@RequestBody UserLoginVo userLogin) throws Exception {
-        log.info(userLogin.toString());
         if (StrUtil.isEmpty(userLogin.getUsername()) || (StrUtil.isEmpty(userLogin.getPassword()))) {
             return ResultVo.error(StatusEnum.USERNAME_OR_PASSWORD_NULL);
         }
         try{
-            return ResultVo.success(StatusEnum.CERTIFICATION_SUCCESS,userService.login(userLogin.getUsername(), userLogin.getPassword()));
+            Map<String,String> map = new HashMap<>();
+            map.put("token", userService.login(userLogin.getUsername(), userLogin.getPassword()));
+            return ResultVo.success(StatusEnum.CERTIFICATION_SUCCESS, map);
         }catch(Exception e){
             return ResultVo.error(e.getMessage());
         }
@@ -51,7 +55,6 @@ public class CertificationController {
      */
     @PostMapping("/register")
     public ResultVo register(@RequestBody UserRegisterVo userRegister){
-        log.info(userRegister.toString());
         userService.register(userRegister.getUsername(), userRegister.getPassword(), userRegister.getAuths());
         return ResultVo.success(StatusEnum.REGISTER_SUCCESS);
     }

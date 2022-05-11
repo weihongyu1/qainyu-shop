@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Author: why
  * @create 2022-04-22 16:48
  **/
-public interface UserRepository  extends JpaRepository<UserLogin,Integer> {
+public interface UserLoginRepository extends JpaRepository<UserLogin,Integer> {
 
     @NonNull
     UserLogin findByUsername(String username);

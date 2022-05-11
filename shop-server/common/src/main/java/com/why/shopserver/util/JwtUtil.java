@@ -5,11 +5,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -143,22 +144,17 @@ public class JwtUtil {
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }
-    //    public void setTokenToRedis(String username,String token){
-//        redisUtil.set(username,token);
-//    }
-//
-//    /**
-//     * 检查Redis中是否存在Token
-//     *
-//     * @param token Token信息
-//     * @return
-//     */
-//    public static boolean hasToken(String token) {
-//        if (StringUtils.isNotEmpty(token)) {
-//            // 去除JWT前缀
-//            token = token.substring(JWTConfig.tokenPrefix.length());
-//            return RedisUtils.hasKey(token);
-//        }
-//        return false;
-//    }
+
+    public String getToken(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        String token = "";
+        if (cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")){
+                    token = cookie.getValue();
+                }
+            }
+        }
+        return token;
+    }
 }

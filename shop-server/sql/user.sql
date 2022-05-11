@@ -20,3 +20,32 @@ CREATE TABLE `user_info` (
                              KEY `fk_uid` (`u_id`),
                              CONSTRAINT `fk_uid` FOREIGN KEY (`u_id`) REFERENCES `user_login` (`u_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- 商品表
+CREATE TABLE `commodity` (
+                             `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+                             `commodity_name` varchar(50) NOT NULL COMMENT '商品名称',
+                             `commodity_describe` varchar(255) NOT NULL COMMENT '商品描述',
+                             `stock` int NOT NULL COMMENT '商品库存',
+                             `ship_address` varchar(255) NOT NULL COMMENT '发货地址',
+                             `take_down` int DEFAULT NULL COMMENT '是否已下架',
+                             `take_up_time` date DEFAULT NULL COMMENT '商品上架时间',
+                             PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- 订单表
+CREATE TABLE `order` (
+                         `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+                         `c_id` int NOT NULL COMMENT '商品id',
+                         `u_id` int NOT NULL COMMENT '用户id',
+                         `recipient` varchar(255) NOT NULL COMMENT '收件人',
+                         `recive_phone` varchar(11) NOT NULL COMMENT '收件电话',
+                         `recive_address` varchar(255) NOT NULL COMMENT '收件地址',
+                         `pay` int DEFAULT NULL COMMENT '是否已支付',
+                         PRIMARY KEY (`id`),
+                         KEY `fk_cid` (`c_id`),
+                         KEY `fk_uer_login` (`u_id`),
+                         CONSTRAINT `fk_cid` FOREIGN KEY (`c_id`) REFERENCES `commodity` (`id`),
+                         CONSTRAINT `fk_uer_login` FOREIGN KEY (`u_id`) REFERENCES `user_login` (`u_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

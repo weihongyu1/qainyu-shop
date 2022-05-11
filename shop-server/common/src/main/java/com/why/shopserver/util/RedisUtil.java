@@ -20,7 +20,7 @@
 //@Component
 //public class RedisUtil {
 //    //以下@Autowired导入的是我们自己写的RedisTemplate配置类
-//    @Resource
+//    @Autowired
 //    private RedisTemplate redisTemplate;
 //
 //    // =============================common============================

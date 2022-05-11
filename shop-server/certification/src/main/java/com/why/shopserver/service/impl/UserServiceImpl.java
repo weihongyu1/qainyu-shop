@@ -2,7 +2,7 @@ package com.why.shopserver.service.impl;
 
 import com.why.shopserver.service.UserService;
 import com.why.shopserver.user.pojo.UserLogin;
-import com.why.shopserver.user.repository.UserRepository;
+import com.why.shopserver.user.repository.UserLoginRepository;
 import com.why.shopserver.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserRepository userRepository;
+    private UserLoginRepository userLoginRepository;
 
     @Override
     public String login(String username, String password) throws AuthenticationException{
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(String username, String password, String auths) {
-        userRepository.save(new UserLogin(null, username, password, auths));
+        userLoginRepository.save(new UserLogin(null, username, password, auths));
     }
 
     @Override

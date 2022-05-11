@@ -37,6 +37,6 @@ public class UserInfo implements Serializable {
     private String address;
 
     /** 外键，用户登录表id **/
-    @JoinColumn(name="u_id") //维护外键
+    @Column(name="u_id") //维护外键
     private Integer uId;
 }

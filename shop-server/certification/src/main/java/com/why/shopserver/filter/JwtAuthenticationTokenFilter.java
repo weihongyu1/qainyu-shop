@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -39,8 +40,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String jwt = request.getHeader(jwtUtil.getHeader());
-        log.info(jwt);
+        String jwt = jwtUtil.getToken(request);
         if(!StrUtil.isEmpty(jwt)){
             //根据jwt获取用户名
             String username = jwtUtil.getUserNameFromToken(jwt);
