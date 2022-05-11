@@ -11,8 +11,11 @@
     "axios": "^0.26.1",
     "colorfulimg": "^1.0.2",
     "core-js": "^3.6.5",
-    "element-plus": "^2.1.10",
+    "echarts": "^5.3.2",
+    "echarts-gl": "^2.0.9",
+    "element-plus": "^2.1.11",
     "vue": "^3.0.0",
+    "vue-echarts": "^6.0.2",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

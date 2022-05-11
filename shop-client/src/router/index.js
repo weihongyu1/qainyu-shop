@@ -13,9 +13,32 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-
-    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
-  }
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/detail_page',
+    name: 'DetailPage',
+    meta: {
+      requireAuth: true
+    },
+    component: () => import('../views/DetailsPage')
+  },
+  {
+    path: '/order_page',
+    name: 'OrderPage',
+    meta: {
+      requireAuth: true
+    },
+    component: () => import('../views/OrderPage')
+  },
+  {
+    path: '/buy_page',
+    name: 'BuyPage',
+    meta: {
+      requireAuth: true
+    },
+    component: () => import('../views/BuyPage')
+  },
 ]
 
 const router = createRouter({

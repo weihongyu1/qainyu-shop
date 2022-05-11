@@ -11,6 +11,8 @@
       <!-- 主体部分 -->
       <el-main>
         <Carousel></Carousel>
+        <div style="clear: both"></div>
+        <CardList></CardList>
       </el-main>
       <div style="clear: both"></div>
       <!-- 底部链接 -->
@@ -25,9 +27,10 @@
 import Header from "../components/Header";
 import Carousel from "../components/Carousel";
 import request from "../util/request";
+import CardList from "../components/CardList";
 export default {
   name: 'Home',
-  components: {Carousel, Header},
+  components: {CardList, Carousel, Header},
   created() {
     this.load();
   },

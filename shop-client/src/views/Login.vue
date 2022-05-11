@@ -44,8 +44,7 @@ export default {
         if (res.data != null){
           console.log(res.data)
           sessionStorage.setItem('username', JSON.stringify(this.form.username))
-          //获取数据
-          //JSON.parse(sessionStorage.getItem('userLogin')).uName
+
           this.changeLogin({ Authorization: res.data });
           this.$router.push({
             path: '/'
@@ -60,7 +59,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .login-body{
   height: 30rem;
   width: 60rem;

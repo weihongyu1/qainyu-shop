@@ -17,9 +17,9 @@
 
     <div id="nav-top-mid">
       <el-breadcrumb separator="" style="padding: 0.7rem;margin-left:15vh">
-        <el-breadcrumb-item :to="{ path: '/' }" class="nav-top-item">登录</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }" class="nav-top-item">{{username}}</el-breadcrumb-item>
         <el-breadcrumb-item class="nav-top-item">注册</el-breadcrumb-item>
-        <el-breadcrumb-item class="nav-top-item">消息通知</el-breadcrumb-item>
+        <el-breadcrumb-item class="nav-top-item">订单</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -83,7 +83,9 @@ export default {
   data(){
     return{
       searchImg: "E:\\文件\\毕业设计\\qainyu-shop\\shop-client\\src\\assets\\img\\search.png",
-      alertInfo: false
+      alertInfo: false,
+      username: JSON.parse(sessionStorage.getItem('username')) == null ? "登录" : JSON.parse(sessionStorage.getItem('username')),
+
     }
   },
 
@@ -109,6 +111,7 @@ export default {
   background-color: #262626;
   color: #bfbfbf;
   font-size: xx-small;
+  overflow: hidden;
 }
 #nav-top-left{
   width: 55%;
@@ -149,6 +152,9 @@ export default {
 }
 div{
   white-space:nowrap;
+}
+ul li{
+  list-style: none;
 }
 
 /* 下部导航 */

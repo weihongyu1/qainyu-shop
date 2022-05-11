@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": "/api",
+    "paths": {
+        "@/*": ["src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"],
+  "timeout": 5000
+}
