@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 public interface UserInfoRepository extends JpaRepository<UserInfo,Integer> {
 
     final String table = "user_info";
-    final String field = "id, phone_number, email, address, u_id";
+    final String field = "id, phone_number, email, address, u_id, introduction, avatar";
 
     @Query(value = "SELECT " + field +" FROM " + table + " WHERE u_id = ?1",nativeQuery = true)
     UserInfo findUserInfo(Integer uId);

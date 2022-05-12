@@ -21,22 +21,30 @@ public class UserInfo implements Serializable {
     /** 主键id **/
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
     /** 电话号码 **/
-    @Column(name="phone_number")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     /** 邮件地址 **/
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
     /** 家庭住址 **/
-    @Column(name="address")
+    @Column(name = "address")
     private String address;
 
     /** 外键，用户登录表id **/
-    @Column(name="u_id") //维护外键
+    @Column(name = "u_id") //维护外键
     private Integer uId;
+
+    /** 介绍 **/
+    @Column(name = "introduction")
+    private String introduction;
+
+    /** 头像url **/
+    @Column(name = "avatar")
+    private String avatar;
 }

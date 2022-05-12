@@ -46,13 +46,17 @@ public class UserServiceBaseImpl implements UserServiceBase {
         UserLogin userLogin = userLoginRepository.findByUsername(username);
 
         UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setUsername(username);
+        userInfoDTO.setName(username);
 
         //设置权限
         String[] rolesArr = userLogin.getRole().split(",");
         userInfoDTO.setRoles(rolesArr);
 
         userInfoDTO.setId(userLogin.getId());
+
+        UserInfo userInfo = userInfoRepository.findUserInfo(userLogin.getId());
+        userInfoDTO.setIntroduction(userInfo.getIntroduction());
+        userInfoDTO.setAvatar(userInfo.getAvatar());
 
         return userInfoDTO;
     }

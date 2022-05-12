@@ -41,5 +41,5 @@ logging:
 jwt:
   header: Authorization
   secret: sdn#@!NYSQT
-  expiration: 3600
+  expiration: 360
 
