@@ -47,7 +47,15 @@ public class Commodity implements Serializable {
     @Column(name = "take_down")
     private Integer takeDown;
 
-    /** 上架爱时间 **/
+    /** 上架时间 **/
     @Column(name = "take_up_time")
     private Date takeUpTime;
+
+    /** 销售时间 **/
+    @Column(name = "sale_time")
+    private Date saleTime;
+
+    /** 商品分类 **/
+    @Column(name = "category")
+    private String category;
 }

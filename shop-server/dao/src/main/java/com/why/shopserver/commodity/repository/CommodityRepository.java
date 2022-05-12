@@ -16,4 +16,6 @@ public interface CommodityRepository extends JpaRepository<Commodity,Integer> {
     final String field = "commodity_name, commodity_describe, stock, ship_address, take_down, take_up_time";
 
     List<Commodity> findCommoditiesByCommodityName(String commodityName);
+
+    Commodity findCommodityById(Integer id);
 }

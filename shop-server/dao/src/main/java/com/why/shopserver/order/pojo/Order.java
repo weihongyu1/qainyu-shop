@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 订单实体类
@@ -46,7 +47,15 @@ public class Order implements Serializable {
     @Column(name = "recive_address")
     private String reciveAddress;
 
-    /** 是否已支付 **/
-    @Column(name = "pay")
-    private Integer pay;
+    /** 支付状态 **/
+    @Column(name = "payment_tatus")
+    private Integer paymentStatus;
+
+    /** 下单时间 **/
+    @Column(name = "order_date")
+    private Date orderDate;
+
+    /** 发货时间 **/
+    @Column(name = "delivery_time")
+    private Date deliveryTime;
 }

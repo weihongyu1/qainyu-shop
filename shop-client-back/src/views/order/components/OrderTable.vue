@@ -61,7 +61,7 @@
             <el-form-item label="发货时间">
               <span>{{ props.row.deliveryTime }}</span>
             </el-form-item>
-            <el-form-item label="时间">
+            <el-form-item label="订单创建时间">
               <span>{{ props.row.date }}</span>
             </el-form-item>
           </el-form>

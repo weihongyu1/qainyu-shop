@@ -1,5 +1,6 @@
 package com.why.shopServer.service;
 
+import com.why.shopServer.dto.OrderDTO;
 import com.why.shopserver.order.pojo.Order;
 import com.why.shopserver.user.pojo.UserLogin;
 
@@ -43,5 +44,5 @@ public interface OrderService {
      * 获取所有订单
      * @return
      */
-    List<Order> getAll();
+    List<OrderDTO> getAll();
 }
