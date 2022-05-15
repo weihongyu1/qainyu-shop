@@ -12,7 +12,7 @@
 
     <!--    表格-->
     <el-table
-      :data="commodity"
+      :data="commodities"
       border
       :default-sort="{prop: 'date', order: 'descending'}"
       style="margin-top: 10px"
@@ -25,7 +25,7 @@
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="商品ID">
-              <span>{{ props.row.commodityId }}</span>
+              <span>{{ props.row.id }}</span>
             </el-form-item>
             <el-form-item label="商品名称">
               <span>{{ props.row.commodityName }}</span>
@@ -34,24 +34,27 @@
               <span>{{ props.row.category }}</span>
             </el-form-item>
             <el-form-item label="销售时间">
-              <span>{{ props.row.address }}</span>
+              <span>{{ props.row.shipAddress }}</span>
             </el-form-item>
             <el-form-item label="上架时间">
-              <span>{{ props.row.phoneNumber }}</span>
+              <span>{{ props.row.takeUpDate }}</span>
             </el-form-item>
             <el-form-item label="商品地域">
-              <span>{{ props.row.phoneNumber }}</span>
+              <span>{{ props.row.shipAddress }}</span>
             </el-form-item>
             <el-form-item label="商品描述">
               <span>{{ props.row.desc }}</span>
             </el-form-item>
+            <el-form-item label="商品库存">
+              <span>{{ props.row.stock }}</span>
+            </el-form-item>
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column prop="commodityId" label="商品ID" />
-      <el-table-column prop="commodityName" label="商品名称" />
+      <el-table-column prop="id" label="商品ID" width="100" />
+      <el-table-column prop="commodityName" label="商品名称" :show-overflow-tooltip="true" />
       <el-table-column
-        prop="type"
+        prop="category"
         label="商品分类"
         :filters="[{text: '生活家居', value: '生活家居'}, {text: '数码产品', value: '数码产品'}, {text: '潮流服饰', value: '潮流服饰'}, {text: '日用产品', value: '日用产品'}]"
         :filter-method="filterType"
@@ -60,85 +63,161 @@
       >
         <template slot-scope="scope">
           <el-tag
-            :type="parseColor(scope.row.type)"
+            :type="parseColor(scope.row.category)"
             disable-transitions
-          >{{ scope.row.type }}</el-tag>
+          >{{ scope.row.category }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="saleDate" label="销售时间" sortable />
       <el-table-column prop="takeUpDate" label="上架时间" sortable />
-      <el-table-column prop="address" label="商品地域" :show-overflow-tooltip="true" />
+      <el-table-column prop="shipAddress" label="商品地域" :show-overflow-tooltip="true" />
       <el-table-column prop="desc" label="商品描述" :show-overflow-tooltip="true" />
+      <el-table-column prop="stock" width="60" label="库存" />
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-popover
-            placement="right"
-            width="400"
-            trigger="click"
-          >
-            <!--          表单-->
-            <el-form ref="form" :model="form" label-width="80px">
-
-            </el-form>
-            <!--          编辑-->
-            <el-button slot="reference" size="mini">编辑</el-button>
-          </el-popover>
-
-          <el-popconfirm
-            title="这将删除数据库中关于此订单的所有消息！"
-          >
-            <el-button slot="reference" type="danger" size="mini">下架</el-button>
-          </el-popconfirm>
+          <!--          编辑-->
+          <el-button slot="reference" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+          <!--          删除-->
+          <el-button slot="reference" type="danger" size="mini" @click="handleDelete(scope.row)">下架</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <div>
-      <el-pagination
-        layout="prev, pager, next"
-        :total="allPageNumber">
-      </el-pagination>
-    </div>
+    <el-dialog :visible.sync="dialogEditVisible" :title="dialogEditType==='edit'?'编辑商品':'新增商品'">
+      <el-form :model="commdity" label-width="80px" label-position="left">
+        <el-form-item label="商品名称">
+          <el-input v-model="commdity.commodityName" placeholder="商品名称" />
+        </el-form-item>
+        <el-form-item label="商品分类">
+          <el-input v-model="commdity.category" placeholder="商品分类" />
+        </el-form-item>
+        <el-form-item label="销售时间">
+          <el-input v-model="commdity.saleDate" placeholder="销售时间" />
+        </el-form-item>
+        <el-form-item label="商品地域">
+          <el-input v-model="commdity.shipAddress" placeholder="商品地域" />
+        </el-form-item>
+        <el-form-item label="商品库存">
+          <el-input v-model="commdity.stock" placeholder="商品库存" type="number" />
+        </el-form-item>
+        <el-form-item label="商品描述">
+          <el-input
+            v-model="commdity.desc"
+            :autosize="{ minRows: 2, maxRows: 4}"
+            type="textarea"
+            placeholder="商品描述"
+          />
+        </el-form-item>
+      </el-form>
+      <div style="text-align:right;">
+        <el-button type="danger" @click="dialogEditVisible=false">取消</el-button>
+        <el-button type="primary" @click="confirmCommodity">确定</el-button>
+      </div>
+    </el-dialog>
+
+<!--    下架-->
+    <el-dialog :visible.sync="dialogDelVisible" :title="dialogDelType==='下架商品' ? '下架商品' : '下架商品'">
+      <div>
+        这将下架商品，请谨慎操作！
+      </div>
+      <div style="text-align:right;">
+        <el-button type="primary" @click="dialogDelVisible=false">取消</el-button>
+        <el-button type="danger" @click="delCommodity">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { getAllCommodity, takeDownCommodity, takeUpCommodity, takeUpCommodityList } from '@/api/commodity'
+
 export default {
   name: 'CommodityList',
+  created() {
+    this.getAllCommodity()
+  },
   data() {
     return {
+      dialogEditType: 'edit',
+      dialogEditVisible: false,
+      dialogDelVisible: false,
+      dialogDelType: '下架商品',
       search: '',
       allPageNumber: 20,
       form: {
       },
-      commodity: [{
-        commodityId: '14556687686',
-        commodityName: '半亩花田-磨砂膏',
-        type: '生活家居',
-        saleDate: '2022-06-04 13:20',
-        takeUpDate: '2022-06-04 13:20',
-        address: '江苏省镇江市京口区学府路301号',
-        desc: '半亩花田磨砂膏'
-      }, {
-        commodityId: '14556687686',
-        commodityName: '半亩花田-磨砂膏',
-        type: '数码产品',
-        saleDate: '2022-06-04 13:20',
-        takeUpDate: '2022-06-04 13:20',
-        address: '江苏省镇江市京口区学府路301号',
-        desc: '半亩花田磨砂膏'
-      }]
+      commdity: {
+        id: '',
+        commodityName: '',
+        category: '',
+        saleDate: '',
+        takeUpDate: '',
+        shipAddress: '',
+        desc: '',
+        stock: 0
+      },
+      commodities: [],
+      commodityId: 0
     }
   },
   methods: {
+    getAllCommodity() {
+      getAllCommodity().then(response => {
+        this.commodities = response.data
+      })
+    },
     filterType(value, row, column) {
       return row.type === value
     },
-    handleEdit(index, row) {
-      console.log(index, row)
+    handleEdit(row) {
+      this.commdity = {
+        id: row.id,
+        commodityName: row.commodityName,
+        category: row.category,
+        saleDate: row.saleDate,
+        takeUpDate: row.takeUpDate,
+        shipAddress: row.shipAddress,
+        desc: row.desc,
+        stock: row.stock
+      }
+      this.dialogEditType = 'edit'
+      this.dialogEditVisible = true
     },
-    handleDelete(index, row) {
-      console.log(index, row)
+    confirmCommodity() {
+      this.dialogEditType = false
+      takeUpCommodityList(this.commdity).then(reponse => {
+        if (reponse.code === 20000) {
+          alert('修改商品信息成功')
+          location.reload()
+        } else {
+          alert('修改商品信息失败')
+          location.reload()
+        }
+      })
+    },
+    handleDelete(row) {
+      this.commdity = {
+        id: row.id,
+        commodityName: row.commodityName,
+        category: row.category,
+        saleDate: row.saleDate,
+        takeUpDate: row.takeUpDate,
+        shipAddress: row.shipAddress,
+        desc: row.desc,
+        stock: row.stock
+      }
+      this.commodityId = row.commodityId
+      this.dialogDelVisible = true
+    },
+    delCommodity() {
+      this.dialogDelVisible = false
+      takeDownCommodity(this.commdity).then(response => {
+        if (response.code === 20000) {
+          alert('商品下架成功')
+        } else {
+          alert('商品下架失败')
+        }
+      })
+      // location.reload()
     },
     parseColor(type) {
       switch (type) {

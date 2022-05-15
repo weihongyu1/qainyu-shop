@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import OrderTable from './components/OrderTable';
+import OrderTable from './components/OrderTable'
 export default {
-  name: 'Order',
-  components: {OrderTable}
+  name: 'OrderList',
+  components: { OrderTable }
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div style="width: 99%;margin: 1rem">
-    <el-button type="primary" style="float: left" size="small">新增</el-button>
+    <el-button type="primary" style="float:left;" size="small" @click="handleAddOrder">新增</el-button>
     <!--  搜索框-->
     <div style="width: 20rem;float: left;margin-left: 15px">
       <el-input v-model="search.text" placeholder="请输入内容" class="input-with-select" size="small">
@@ -64,6 +64,9 @@
             <el-form-item label="订单创建时间">
               <span>{{ props.row.date }}</span>
             </el-form-item>
+            <el-form-item label="订单描述">
+              <span>{{ props.row.orderDesc }}</span>
+            </el-form-item>
           </el-form>
         </template>
       </el-table-column>
@@ -91,57 +94,63 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-popover
-            placement="right"
-            width="400"
-            trigger="click"
-          >
-            <!--          表单-->
-            <el-form ref="form" :model="form" label-width="80px">
-              <el-form-item label="收件人">
-                <el-input v-model="form.recipient" />
-              </el-form-item>
-              <el-form-item label="收件地址">
-                <el-input v-model="form.address" />
-              </el-form-item>
-              <el-form-item label="收件电话">
-                <el-input v-model="form.phoneNumber" />
-              </el-form-item>
-              <el-form-item label="支付状态">
-                <el-input v-model="form.paymentStatus" />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary">确定</el-button>
-                <el-button>取消</el-button>
-              </el-form-item>
-            </el-form>
-            <!--          编辑-->
-            <el-button slot="reference" size="mini">编辑</el-button>
-          </el-popover>
+          <!--          编辑-->
+          <el-button slot="reference" size="mini" @click="handleEditOrder(scope.row)">编辑</el-button>
 
-          <el-popconfirm
-            title="这将删除数据库中关于此订单的所有消息！"
-          >
-            <el-button slot="reference" type="danger" size="mini">删除</el-button>
-          </el-popconfirm>
+          <!--          删除-->
+          <el-button slot="reference" type="danger" size="mini" @click="handleDel(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <div>
-      <el-pagination
-        layout="prev, pager, next"
-        :total="allPageNumber">
-      </el-pagination>
-    </div>
+    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'编辑订单':'新增订单'">
+      <el-form :model="order" label-width="80px" label-position="left">
+        <el-form-item label="收件人">
+          <el-input v-model="order.recipient" placeholder="收件人" />
+        </el-form-item>
+        <el-form-item label="收件电话">
+          <el-input v-model="order.phoneNumber" placeholder="收件电话" />
+        </el-form-item>
+        <el-form-item label="收件地址">
+          <el-input v-model="order.address" placeholder="收件地址" />
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input
+            v-model="order.orderDesc"
+            :autosize="{ minRows: 2, maxRows: 4}"
+            type="textarea"
+            placeholder="备注"
+          />
+        </el-form-item>
+      </el-form>
+      <div style="text-align:right;">
+        <el-button type="danger" @click="dialogVisible=false">取消</el-button>
+        <el-button type="primary" @click="confirmOrder">确定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog :visible.sync="dialogDelVisible" :title="dialogType==='删除订单' ? '删除订单' : '删除订单'">
+      <div>
+        这将删除订单的所有信息，请谨慎操作！
+      </div>
+      <div style="text-align:right;">
+        <el-button type="primary" @click="dialogDelVisible=false">取消</el-button>
+        <el-button type="danger" @click="delOrder">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { delOrder, getAllOrder, updateOrder } from '@/api/order'
+import CodeToText from 'element-china-area-data'
+
 export default {
   name: 'OrderTable',
+  comments: CodeToText,
   data() {
     return {
+      dialogDelVisible: false,
       allPageNumber: 20,
       value: true,
       search: {
@@ -155,147 +164,23 @@ export default {
         paymentStatus: '已支付',
         phoneNumber: '15337086013'
       },
-      orders: [{
-        orderId: '202205060001',
-        commodityId: '1548',
-        recipient: 'why',
-        address: '甘肃省兰州市榆中县园子岔乡小岔村大敦子社17号',
-        date: '2022-05-06 13:20',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
+      order: {
+        orderId: '',
+        recipient: '',
+        address: '',
+        phoneNumber: '',
+        orderDesc: ''
       },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '已支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      },
-      {
-        orderId: '202205060002',
-        commodityId: '1549',
-        recipient: 'wyy',
-        address: '江苏省镇江市京口区象山街道学府路301号',
-        date: '2022-05-06 13:30',
-        paymentStatus: '未支付',
-        commodityName: '沐浴磨砂膏',
-        category: '生活用品 洗护用品',
-        desc: '用于沐浴，强效洁净身体',
-        deliveryTime: '2022-05-07 9:00',
-        phoneNumber: '15337086013',
-        username: 'wyy'
-      }]
+      orders: [],
+      routes: [],
+      rolesList: [],
+      dialogVisible: false,
+      dialogType: 'new',
+      delOrderId: 0
     }
+  },
+  created() {
+    this.getAllOrder()
   },
   methods: {
     filterPamentStaus(value, row, column) {
@@ -306,6 +191,60 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row)
+    },
+    getAllOrder() {
+      getAllOrder().then(response => {
+        this.orders = response.data
+      })
+    },
+    handleAddOrder() {
+      this.dialogType = 'new'
+      this.dialogVisible = true
+    },
+    handleEditOrder(row) {
+      this.order = {
+        orderId: row.orderId,
+        recipient: row.recipient,
+        address: row.address,
+        phoneNumber: row.phoneNumber,
+        orderDesc: row.orderDesc
+      }
+      this.dialogType = 'edit'
+      this.dialogVisible = true
+    },
+    handleDel(row) {
+      this.delOrderId = row.orderId
+      this.dialogDelVisible = true
+    },
+    confirmOrder() {
+      this.dialogVisible = false
+      updateOrder(this.order).then(response => {
+        if (response.code === 20000) {
+          if (this.dialogType === 'new') {
+            alert('订单新增成功')
+          } else {
+            alert('订单编辑成功')
+          }
+        } else {
+          if (this.dialogType === 'new') {
+            alert('订单新增失败')
+          } else {
+            alert('订单编辑失败')
+          }
+        }
+      })
+      location.reload()
+    },
+    delOrder() {
+      this.dialogDelVisible = false
+      delOrder(this.delOrderId).then(response => {
+        if (response.code === 20000) {
+          alert('订单删除成功')
+        } else {
+          alert('订单删除失败')
+        }
+      })
+      location.reload()
     }
   }
 }

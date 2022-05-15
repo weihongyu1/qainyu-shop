@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import commodity from './modules/commodity'
+import order from './modules/order'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -158,7 +159,19 @@ export const asyncRoutes = [
 
   /** when your routing map is too long, you can split it into small modules **/
   commodity,
-
+  order,
+  {
+    path: '/user',
+    component: Layout,
+    children: [
+      {
+        path: 'user',
+        component: () => import('@/views/user/index'),
+        name: 'User',
+        meta: { title: '用户管理', icon: 'user' }
+      }
+    ]
+  },
   {
     path: '/error',
     component: Layout,
@@ -180,30 +193,6 @@ export const asyncRoutes = [
         component: () => import('@/views/error-page/404'),
         name: 'Page404',
         meta: { title: '404', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/order',
-    component: Layout,
-    children: [
-      {
-        path: 'order',
-        component: () => import('@/views/order/index'),
-        name: 'Order',
-        meta: { title: '订单管理', icon: 'shopping' }
-      }
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    children: [
-      {
-        path: 'user',
-        component: () => import('@/views/user/index'),
-        name: 'User',
-        meta: { title: '用户管理', icon: 'user' }
       }
     ]
   },
