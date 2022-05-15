@@ -3,6 +3,8 @@ package com.why.shopServer.service;
 import com.why.shopServer.dto.OrderDTO;
 import com.why.shopserver.order.pojo.Order;
 import com.why.shopserver.user.pojo.UserLogin;
+import com.why.shopserver.vo.order.PlaceOrderVo;
+import com.why.shopserver.vo.order.UpdateVo;
 
 import java.util.List;
 
@@ -16,23 +18,23 @@ public interface OrderService {
 
     /**
      * 下订单
-     * @param order
+     * @param orderVo
      * @return
      */
-    Order placeOrder(Order order);
+    Order placeOrder(PlaceOrderVo orderVo);
 
     /**
      * 修改订单
-     * @param order
+     * @param updateVo
      * @return
      */
-    Order updateOrder(Order order);
+    void updateOrder(UpdateVo updateVo);
 
     /**
      * 删除订单
-     * @param order
+     * @param orderId
      */
-    void deleteOrder(Order order);
+    void deleteOrder(Integer orderId);
 
     /**
      * 返回用户的所有订单

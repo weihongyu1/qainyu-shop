@@ -25,7 +25,7 @@ public class OrderDTO {
     /** 收货地址 **/
     private String address;
     /** 下单时间 **/
-    private Date date;
+    private String date;
     /** 支付状态 **/
     private String paymentStatus;
     /** 商品名称 **/
@@ -40,4 +40,8 @@ public class OrderDTO {
     private String phoneNumber;
     /** 用户名 **/
     private String username;
+    /** 订单描述 **/
+    private String orderDesc;
+    /** 位置 **/
+    private String[] options;
 }

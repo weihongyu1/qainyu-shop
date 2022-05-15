@@ -1,6 +1,8 @@
 package com.why.shopServer.service;
 
 import com.why.shopserver.commodity.pojo.Commodity;
+import com.why.shopserver.vo.commodity.CommodityVo;
+import com.why.shopserver.vo.commodity.TakeUpVo;
 
 import java.util.List;
 
@@ -13,9 +15,15 @@ import java.util.List;
 public interface CommodityService {
     /**
      * 商品上架
-     * @param commodity
+     * @param commodityVo
      */
-    void commodityTakeUp(Commodity commodity);
+    void commodityTakeUp(CommodityVo commodityVo);
+
+    /**
+     * 商品上架
+     * @param takeUpVo
+     */
+    void commodityTakeUp(TakeUpVo takeUpVo);
 
     /**
      * 商品下架
@@ -33,7 +41,7 @@ public interface CommodityService {
      * 获取所有商品
      * @return
      */
-    List<Commodity> getAllCommodity();
+    List<CommodityVo> getAllCommodity();
 
     /**
      * 根据商品名称搜索商品

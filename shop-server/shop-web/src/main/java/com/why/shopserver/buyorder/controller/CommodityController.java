@@ -4,7 +4,10 @@ import com.why.shopServer.service.impl.CommodityServiceImpl;
 import com.why.shopserver.commodity.pojo.Commodity;
 import com.why.shopserver.commonenum.StatusEnum;
 import com.why.shopserver.vo.ResultVo;
+import com.why.shopserver.vo.commodity.CommodityVo;
+import com.why.shopserver.vo.commodity.TakeUpVo;
 import io.lettuce.core.dynamic.annotation.Param;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,18 +19,30 @@ import org.springframework.web.bind.annotation.*;
  **/
 @RestController
 @RequestMapping("/commodity")
+@Slf4j
 public class CommodityController {
     @Autowired
     private CommodityServiceImpl commodityService;
 
     /**
      * 商品上架接口
-     * @param commodity
+     * @param commodityVo
      * @return
      */
-    @PostMapping("/take_up")
-    public ResultVo commodityTakeUp(@RequestBody Commodity commodity){
-        commodityService.commodityTakeUp(commodity);
+    @PostMapping("/take_up_list")
+    public ResultVo commodityTakeUp(@RequestBody CommodityVo commodityVo){
+        commodityService.commodityTakeUp(commodityVo);
+        return ResultVo.success(StatusEnum.COMMODITY_TAKE_UP_SUCCESS);
+    }
+
+    /**
+     * 商品上架接口
+     * @param takeUpVo
+     * @return
+     */
+    @PostMapping("/take_up_form")
+    public ResultVo commodityTakeUp(@RequestBody TakeUpVo takeUpVo){
+        commodityService.commodityTakeUp(takeUpVo);
         return ResultVo.success(StatusEnum.COMMODITY_TAKE_UP_SUCCESS);
     }
 
@@ -36,8 +51,9 @@ public class CommodityController {
      * @param commodity
      * @return
      */
-    @PostMapping("take_down")
+    @PostMapping("/take_down")
     public ResultVo commodityTakeDown(@RequestBody Commodity commodity){
+        log.info(commodity.toString());
         commodityService.commodityTakeDown(commodity);
         return ResultVo.success(StatusEnum.COMMODITY_TAKE_DOWN_SUCCESS);
     }
@@ -57,7 +73,7 @@ public class CommodityController {
      * 获取所有商品
      * @return
      */
-    @GetMapping("getAll")
+    @GetMapping("/get_all")
     public ResultVo getAllCommodity(){
         return ResultVo.success(StatusEnum.COMMODITY_GET_ALL_SUCCESS,commodityService.getAllCommodity());
     }

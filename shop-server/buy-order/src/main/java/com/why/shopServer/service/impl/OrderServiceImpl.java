@@ -1,5 +1,6 @@
 package com.why.shopServer.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.why.shopServer.dto.OrderDTO;
 import com.why.shopServer.service.OrderService;
 import com.why.shopserver.commodity.pojo.Commodity;
@@ -8,12 +9,13 @@ import com.why.shopserver.order.pojo.Order;
 import com.why.shopserver.order.repository.OrderRepository;
 import com.why.shopserver.user.pojo.UserLogin;
 import com.why.shopserver.user.repository.UserLoginRepository;
+import com.why.shopserver.vo.order.PlaceOrderVo;
+import com.why.shopserver.vo.order.UpdateVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * 订单接口实现类
@@ -31,21 +33,45 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserLoginRepository userLoginRepository;
 
+    private final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private final String DATE_FORMAT = "yyyy-MM-dd";
+    private final String SPACE = " ";
+
     @Override
-    public Order placeOrder(Order order) {
+    @Transactional
+    public Order placeOrder(PlaceOrderVo orderVo) {
+        Commodity commodity = commodityRepository.findCommodityByCommodityName(orderVo.getCommodityName());
+        if(commodity.getStock() <= 0){
+            return null;
+        }
+        UserLogin user = userLoginRepository.findByUsername(orderVo.getUsername());
+
+        String options = Arrays.toString(orderVo.getSelectedOptions());
+        Integer paymentStatus = 0;
+        if (orderVo.isPaymentStatus()){
+            paymentStatus = 1;
+        }
+        String dateTime = DateUtil.format(orderVo.getDate(), DATE_FORMAT) + SPACE + DateUtil.format(orderVo.getTime(), DATE_TIME_FORMAT).substring(11);
+
+        Order order = new Order(null, commodity.getId(), user.getId(), orderVo.getRecipient(),
+                orderVo.getPhoneNumber(), options, orderVo.getAddress(), paymentStatus, new Date(),
+                DateUtil.parse(dateTime, DATE_TIME_FORMAT), orderVo.getDesc());
+
+        commodity.setStock(commodity.getStock() - 1);
+        commodityRepository.save(commodity);
         orderRepository.save(order);
         return order;
     }
 
     @Override
-    public Order updateOrder(Order order) {
-        orderRepository.save(order);
-        return order;
+    @Transactional
+    public void updateOrder(UpdateVo updateVo) {
+        orderRepository.update(updateVo);
     }
 
     @Override
-    public void deleteOrder(Order order) {
-        orderRepository.delete(order);
+    public void deleteOrder(Integer orderId) {
+        orderRepository.deleteById(orderId);
     }
 
     @Override
@@ -59,8 +85,8 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDTO> orderDTOS = new ArrayList<>();
         List<Order> orders = orderRepository.findAll();
         Iterator<Order> orderIterator = orders.iterator();
-        OrderDTO orderDTO = new OrderDTO();
         while (orderIterator.hasNext()) {
+            OrderDTO orderDTO = new OrderDTO();
             Order order = orderIterator.next();
             Commodity commodity = commodityRepository.findCommodityById(order.getCId());
             UserLogin userLogin = userLoginRepository.findUserLoginById(order.getUId());
@@ -69,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
             orderDTO.setCommodityId(order.getUId());
             orderDTO.setRecipient(order.getRecipient());
             orderDTO.setAddress(order.getReciveAddress());
-            orderDTO.setDate(order.getOrderDate());
+            orderDTO.setDate(DateUtil.format(order.getOrderDate(),DATE_TIME_FORMAT));
 
             //未支付
             if (order.getPaymentStatus() == 0){
@@ -80,10 +106,14 @@ public class OrderServiceImpl implements OrderService {
 
             orderDTO.setCommodityName(commodity.getCommodityName());
             orderDTO.setCategory(commodity.getCategory());
-            orderDTO.setDesc(commodity.getCommodityDescribe());
+            orderDTO.setDesc(commodity.getDesc());
             orderDTO.setDeliveryTime(order.getDeliveryTime());
             orderDTO.setPhoneNumber(order.getRecivePhone());
             orderDTO.setUsername(userLogin.getUsername());
+            orderDTO.setOrderDesc(order.getOrderDesc());
+            if (order.getOptions() != null){
+                orderDTO.setOptions(order.getOptions().split(","));
+            }
 
             orderDTOS.add(orderDTO);
         }

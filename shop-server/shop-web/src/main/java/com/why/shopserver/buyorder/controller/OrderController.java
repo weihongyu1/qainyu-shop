@@ -1,12 +1,19 @@
 package com.why.shopserver.buyorder.controller;
 
+import com.sun.javafx.collections.MappingChange;
 import com.why.shopServer.service.impl.OrderServiceImpl;
 import com.why.shopserver.commonenum.StatusEnum;
 import com.why.shopserver.order.pojo.Order;
 import com.why.shopserver.user.pojo.UserLogin;
 import com.why.shopserver.vo.ResultVo;
+import com.why.shopserver.vo.order.PlaceOrderVo;
+import com.why.shopserver.vo.order.UpdateVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * 订单数据接口
@@ -16,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @RestController
 @RequestMapping("/order")
+@Slf4j
 public class OrderController {
 
     @Autowired
@@ -23,32 +31,39 @@ public class OrderController {
 
     /**
      * 下订单
-     * @param order
+     * @param placeOrderVo
      * @return
      */
     @PostMapping("/place")
-    public ResultVo placeOrder(@RequestBody Order order){
-        return ResultVo.success(StatusEnum.ORDER_PLACE_SUCCESS, orderService.placeOrder(order));
+    public ResultVo placeOrder(@RequestBody PlaceOrderVo placeOrderVo){
+        log.info(placeOrderVo.toString());
+        if (orderService.placeOrder(placeOrderVo) == null){
+            return ResultVo.success(StatusEnum.ORDER_PLACE_ERROR);
+        }
+        return ResultVo.success(StatusEnum.ORDER_PLACE_SUCCESS);
     }
 
     /**
      * 修改订单信息
-     * @param order
+     * @param updateVo
      * @return
      */
     @PostMapping("/update")
-    public ResultVo updateOrder(@RequestBody Order order){
-        return ResultVo.success(StatusEnum.ORDER_UPDATE_SUCCESS, orderService.updateOrder(order));
+    public ResultVo updateOrder(@RequestBody UpdateVo updateVo){
+        log.info(updateVo.toString());
+        orderService.updateOrder(updateVo);
+        return ResultVo.success(StatusEnum.ORDER_UPDATE_SUCCESS);
     }
 
     /**
      * 删除订单信息
-     * @param order
+     * @param delOrderId
      * @return
      */
-    @PostMapping("/delete")
-    public ResultVo deleteOrder(@RequestBody Order order){
-        orderService.deleteOrder(order);
+    @GetMapping("/delete")
+    public ResultVo deleteOrder(@Param("delOrderId") Integer delOrderId){
+        log.info(String.valueOf(delOrderId));
+        orderService.deleteOrder(delOrderId);
         return ResultVo.success(StatusEnum.ORDER_DELETE_SUCCESS);
     }
 

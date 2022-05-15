@@ -63,6 +63,9 @@ public class UserController {
      */
     @GetMapping("/get_user")
     public ResultVo getUserInfo(HttpServletRequest request){
-        return ResultVo.success(StatusEnum.USER_INFO_GET_SUCCESS, userServiceBase.getUserInfo(jwtUtil.getUserNameFromToken(jwtUtil.getToken(request))));
+        return ResultVo.success(
+                StatusEnum.USER_INFO_GET_SUCCESS,
+                userServiceBase.getUserInfo(jwtUtil.getUserNameFromToken(jwtUtil.getToken(request)))
+        );
     }
 }

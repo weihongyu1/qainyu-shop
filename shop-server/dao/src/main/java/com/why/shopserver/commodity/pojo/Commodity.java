@@ -33,7 +33,7 @@ public class Commodity implements Serializable {
     /** 商品描述 **/
     @Column(name="commodity_describe")
     @NotNull
-    private String commodityDescribe;
+    private String desc;
 
     /** 商品库存 **/
     @Column(name = "stock")
@@ -49,11 +49,11 @@ public class Commodity implements Serializable {
 
     /** 上架时间 **/
     @Column(name = "take_up_time")
-    private Date takeUpTime;
+    private Date takeUpDate;
 
     /** 销售时间 **/
     @Column(name = "sale_time")
-    private Date saleTime;
+    private Date saleDate;
 
     /** 商品分类 **/
     @Column(name = "category")

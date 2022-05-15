@@ -15,13 +15,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 在用户名和密码校验前添加的过滤器，
@@ -44,7 +40,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         if(!StrUtil.isEmpty(jwt)){
             //根据jwt获取用户名
             String username = jwtUtil.getUserNameFromToken(jwt);
-            log.info("校验username：{}",username);
             //如果可以正确从JWT中提取用户信息，并且该用户未被授权
             if(!StrUtil.isEmpty(username) && SecurityContextHolder.getContext().getAuthentication()==null){
                 UserDetails userDetails = this.userDetailService.loadUserByUsername(username);

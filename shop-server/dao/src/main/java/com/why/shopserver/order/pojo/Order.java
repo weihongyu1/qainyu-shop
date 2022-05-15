@@ -18,13 +18,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "tbl_order")
 public class Order implements Serializable {
 
     /** 主键id **/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
     /** 商品id，外键 **/
@@ -43,12 +43,16 @@ public class Order implements Serializable {
     @Column(name = "recive_phone")
     private String recivePhone;
 
+    /** 省市value **/
+    @Column(name = "options")
+    private String options;
+
     /** 收件地址 **/
     @Column(name = "recive_address")
     private String reciveAddress;
 
     /** 支付状态 **/
-    @Column(name = "payment_tatus")
+    @Column(name = "payment_status")
     private Integer paymentStatus;
 
     /** 下单时间 **/
@@ -58,4 +62,8 @@ public class Order implements Serializable {
     /** 发货时间 **/
     @Column(name = "delivery_time")
     private Date deliveryTime;
+
+    /** 订单描述 **/
+    @Column(name = "order_desc")
+    private String orderDesc;
 }
