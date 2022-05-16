@@ -2,12 +2,10 @@ package com.why.shopserver.user.controller;
 
 import com.why.shopserver.commonenum.StatusEnum;
 import com.why.shopserver.service.impl.UserServiceBaseImpl;
-import com.why.shopserver.user.pojo.UserInfo;
 import com.why.shopserver.user.pojo.UserLogin;
 import com.why.shopserver.util.JwtUtil;
 import com.why.shopserver.vo.ResultVo;
 import com.why.shopserver.vo.UserListVo;
-import com.why.shopserver.vo.UserLoginVo;
 import io.lettuce.core.dynamic.annotation.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
