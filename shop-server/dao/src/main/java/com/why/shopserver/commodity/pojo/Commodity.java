@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -58,4 +59,8 @@ public class Commodity implements Serializable {
     /** 商品分类 **/
     @Column(name = "category")
     private String category;
+
+    /** 商品分类 **/
+    @Column(name = "price")
+    private BigDecimal price;
 }

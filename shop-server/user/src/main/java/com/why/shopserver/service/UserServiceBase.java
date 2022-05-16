@@ -3,6 +3,11 @@ package com.why.shopserver.service;
 import com.why.shopserver.dto.UserInfoDTO;
 import com.why.shopserver.user.pojo.UserInfo;
 import com.why.shopserver.user.pojo.UserLogin;
+import com.why.shopserver.user.pojo.UserLoginList;
+import com.why.shopserver.vo.UserListVo;
+import com.why.shopserver.vo.UserLoginVo;
+
+import java.util.List;
 
 /**
  * @InterfaceName：UserService
@@ -20,9 +25,9 @@ public interface UserServiceBase {
 
     /**
      * 修改用户基础信息
-     * @param userInfo
+     * @param userListVo
      */
-    boolean updateUserInfo(UserInfo userInfo);
+    boolean updateUserInfo(UserListVo userListVo);
 
     /**
      * 获取用户信息
@@ -30,4 +35,16 @@ public interface UserServiceBase {
      * @return
      */
     UserInfoDTO getUserInfo(String username);
+
+    /**
+     * 获取用户列表
+     * @return
+     */
+    List<UserListVo> getUserList();
+
+    /**
+     * 删除用户
+     * @param uId
+     */
+    void delUser(Integer uId);
 }

@@ -3,6 +3,8 @@ package com.why.shopserver.user.repository;
 import com.why.shopserver.user.pojo.UserLogin;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @InterfaceName：UserRepository
@@ -12,8 +14,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
  **/
 public interface UserLoginRepository extends JpaRepository<UserLogin,Integer> {
 
+    String table = "user_login";
+
     @NonNull
     UserLogin findByUsername(String username);
 
     UserLogin findUserLoginById(Integer id);
+
+    @Modifying
+    @Query(value = "DELETE FROM " + table + " WHERE u_id = ?1",nativeQuery = true)
+    void deleteByUId(Integer id);
 }

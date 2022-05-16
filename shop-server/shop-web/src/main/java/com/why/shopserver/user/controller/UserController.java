@@ -1,17 +1,17 @@
 package com.why.shopserver.user.controller;
 
-import cn.hutool.log.Log;
 import com.why.shopserver.commonenum.StatusEnum;
 import com.why.shopserver.service.impl.UserServiceBaseImpl;
 import com.why.shopserver.user.pojo.UserInfo;
 import com.why.shopserver.user.pojo.UserLogin;
 import com.why.shopserver.util.JwtUtil;
 import com.why.shopserver.vo.ResultVo;
+import com.why.shopserver.vo.UserListVo;
+import com.why.shopserver.vo.UserLoginVo;
+import io.lettuce.core.dynamic.annotation.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -43,17 +43,17 @@ public class UserController {
 
     /**
      * 更新或保存用户信息
-     * @param userInfo
+     * @param userListVo
      * @return
      */
     @PostMapping("/update_info")
-    public ResultVo updateUserInfo(@RequestBody UserInfo userInfo){
-        if (userServiceBase.updateUserInfo(userInfo)){
+    public ResultVo updateUserInfo(@RequestBody UserListVo userListVo){
+        log.info(userListVo.toString());
+        if (userServiceBase.updateUserInfo(userListVo)){
             return ResultVo.success(StatusEnum.USER_INFO_UPDATE_SUCCESS);
         } else {
             return ResultVo.error(StatusEnum.USER_INFO_UPDATE_ERROR);
         }
-
     }
 
     /**
@@ -67,5 +67,29 @@ public class UserController {
                 StatusEnum.USER_INFO_GET_SUCCESS,
                 userServiceBase.getUserInfo(jwtUtil.getUserNameFromToken(jwtUtil.getToken(request)))
         );
+    }
+
+    /**
+     * 获取所有用户信息
+     * @return
+     */
+    @GetMapping("/get_all")
+    public ResultVo getAllUser(){
+        return ResultVo.success(
+                StatusEnum.USER_GET_ALL_SUCCESS,
+                userServiceBase.getUserList()
+        );
+    }
+
+    /**
+     * 删除用户
+     * @param uId
+     * @return
+     */
+    @GetMapping("/del")
+    public ResultVo deleteUser(@Param("uId") Integer uId){
+        log.info(String.valueOf(uId));
+        userServiceBase.delUser(uId);
+        return ResultVo.success(StatusEnum.USER_DELETE_SUCCESS);
     }
 }

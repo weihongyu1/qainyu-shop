@@ -41,7 +41,7 @@ public class CommodityServiceImpl implements CommodityService {
         commodityRepository.save(
                 new Commodity(commodityVo.getId(), commodityVo.getCommodityName(), commodityVo.getDesc(),
                 commodityVo.getStock(), commodityVo.getShipAddress(), 0, takeUpDate, saleDate,
-                commodityVo.getCategory())
+                commodityVo.getCategory(), commodityVo.getPrice())
         );
     }
 
@@ -56,7 +56,7 @@ public class CommodityServiceImpl implements CommodityService {
 
         commodityRepository.save(
                 new Commodity(null, takeUpVo.getCommodityName(), takeUpVo.getDesc(), takeUpVo.getStock(),
-                takeUpVo.getShipAddress(), 0, new Date(), saleDate, takeUpVo.getCategory())
+                takeUpVo.getShipAddress(), 0, new Date(), saleDate, takeUpVo.getCategory(), takeUpVo.getPrice())
         );
     }
 
@@ -85,7 +85,7 @@ public class CommodityServiceImpl implements CommodityService {
 
             commodityList.add(
                     new CommodityVo(commodity.getId(), commodity.getCommodityName(), commodity.getCategory(),
-                    saleDate, takeUpDate, commodity.getShipAddress(), commodity.getDesc(), commodity.getStock())
+                    saleDate, takeUpDate, commodity.getShipAddress(), commodity.getDesc(), commodity.getStock(), commodity.getPrice())
             );
         }
         return commodityList;

@@ -2,6 +2,8 @@ package com.why.shopserver.service.impl;
 
 import com.why.shopserver.service.UserService;
 import com.why.shopserver.user.pojo.UserLogin;
+import com.why.shopserver.user.pojo.UserLoginList;
+import com.why.shopserver.user.repository.UserLoginListRepository;
 import com.why.shopserver.user.repository.UserLoginRepository;
 import com.why.shopserver.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * 用户登录、注册业务接口实现类
@@ -31,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserLoginRepository userLoginRepository;
+    @Autowired
+    private UserLoginListRepository userLoginListRepository;
 
     @Override
     public String login(String username, String password) throws AuthenticationException{
@@ -41,6 +47,10 @@ public class UserServiceImpl implements UserService {
         }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         SecurityContextHolder.getContext().setAuthentication(token);
+
+        Integer uId = userLoginRepository.findByUsername(username).getId();
+        Integer loginListId = userLoginListRepository.findUserLoginListByUId(uId).getId();
+        userLoginListRepository.save(new UserLoginList(loginListId, uId, new Date()));
         //生成JWT
         return jwtUtil.generateToken(userDetails);
     }

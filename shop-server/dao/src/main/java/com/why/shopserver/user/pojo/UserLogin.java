@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,7 +27,7 @@ public class UserLogin implements UserDetails, Serializable {
     /** 主键id **/
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY) //主键生成策略 , 此策略为数据库自动生成 (自动增长)
-    @Column(name="u_id")
+    @Column(name = "u_id")
     private Integer id;
 
     /** 用户名 **/
@@ -53,7 +52,8 @@ public class UserLogin implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(this.role);
+        String[] split = this.role.split(",");
+        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(split.toString());
         return authorities;
     }
 
@@ -88,6 +88,6 @@ public class UserLogin implements UserDetails, Serializable {
     }
 
     public String getRole() {
-        return role;
+        return this.role;
     }
 }

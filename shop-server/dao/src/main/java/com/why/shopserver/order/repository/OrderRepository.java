@@ -2,7 +2,6 @@ package com.why.shopserver.order.repository;
 
 import com.why.shopserver.order.pojo.Order;
 import com.why.shopserver.vo.order.UpdateVo;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +29,12 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     void update(@Param("order") UpdateVo updateVo);
 
     void deleteById(Integer orderId);
+
+    @Modifying
+    @Query(value = "DELETE FROM " + table + " WHERE u_id = ?1",nativeQuery = true)
+    void deleteByUId(Integer uId);
+
+    @Modifying
+    @Query(value = "UPDATE " + table + " SET payment_status = ?1 " + " WHERE id = ?2", nativeQuery = true)
+    void updatePaymentStatus(Integer paymentStatus, Integer orderId);
 }

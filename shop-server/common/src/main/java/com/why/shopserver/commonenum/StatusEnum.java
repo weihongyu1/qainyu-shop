@@ -24,6 +24,8 @@ public enum StatusEnum {
     USER_INFO_UPDATE_SUCCESS(20000, "修改用户基础信息成功"),
     USER_INFO_GET_SUCCESS(20000, "获取用户信息成功"),
     USER_PERMISSION_GET_ALL_SUCCESS(20000, "获取用户所有权限信息成功"),
+    USER_GET_ALL_SUCCESS(20000, "获取用户列表成功"),
+    USER_DELETE_SUCCESS(20000, "用户删除成功"),
 
     /**
      * 商品成功状态
@@ -42,7 +44,8 @@ public enum StatusEnum {
     ORDER_UPDATE_SUCCESS(20000, "修改订单信息成功"),
     ORDER_DELETE_SUCCESS(20000, "删除订单成功"),
     ORDER_GET_BY_USER_SUCCESS(20000, "获取用户订单成功"),
-    ORDER_GET_ALL_SUCCESS(20000, "获取所有订单成功");
+    ORDER_GET_ALL_SUCCESS(20000, "获取所有订单成功"),
+    ORDER_PAY_SUCCESS(20000, "订单支付成功");
 
     private Integer code;
     private String msg;

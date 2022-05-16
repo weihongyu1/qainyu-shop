@@ -3,6 +3,7 @@ package com.why.shopserver.user.pojo;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 用户信息表实体类
@@ -47,4 +48,8 @@ public class UserInfo implements Serializable {
     /** 头像url **/
     @Column(name = "avatar")
     private String avatar;
+
+    /** 账户创建日期 **/
+    @Column(name = "create_date")
+    private Date accountDate;
 }
