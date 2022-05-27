@@ -28,7 +28,7 @@ spring:
 
 # 端口配置
 server:
-  port: 8888
+  port: 8889
 
 # 日志配置
 logging:
