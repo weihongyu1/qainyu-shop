@@ -45,12 +45,6 @@
         </dependency>
     </dependencies>
 
-    <settings>
-        <pluginGroups>
-            <pluginGroup>com.spotify</pluginGroup>
-        </pluginGroups>
-    </settings>
-
     <build>
         <plugins>
             <plugin>
@@ -101,5 +95,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
