@@ -28,9 +28,9 @@ public class UserLoginList {
 
     /** 登录id **/
     @Column(name = "u_id")
-    private Integer u_id;
+    private Integer uId;
 
     /** 登录时间 **/
     @Column(name = "login_time")
-    private Date login_time;
+    private Date loginTime;
 }

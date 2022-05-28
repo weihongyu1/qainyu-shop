@@ -2,7 +2,7 @@ package com.why.shopServer.config;
 
 import com.why.shopServer.component.RestAuthenticationEntryPoint;
 import com.why.shopServer.component.RestfulAccessDeniedHandler;
-import com.why.shopServer.filter.JwtAuthenticationTokenFilter;
+import com.why.shopServer.interceptor.JwtAuthenticationTokenFilter;
 import com.why.shopServer.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

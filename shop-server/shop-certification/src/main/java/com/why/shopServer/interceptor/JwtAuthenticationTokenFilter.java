@@ -1,4 +1,4 @@
-package com.why.shopServer.filter;
+package com.why.shopServer.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import com.why.shopServer.util.JwtUtil;

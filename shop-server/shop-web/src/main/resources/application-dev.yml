@@ -3,7 +3,8 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/qianyu-shop?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true
+    url: jdbc:mysql://localhost:3306/qianyu-shop?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+#    url: jdbc:mysql://10.0.8.2:3306/qianyu_shop?characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 # redis 配置
@@ -41,7 +42,7 @@ logging:
 jwt:
   header: Authorization
   secret: sdn#@!NYSQT
-  expiration: 36000
+  expiration: 3600
 
 # 支付宝支付设置
 alipay:
