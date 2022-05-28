@@ -9,14 +9,14 @@ export function getRoutes() {
 
 export function getRoles() {
   return request({
-    url: '/vue-element-admin/roles',
+    url: '/permission/get_all',
     method: 'get'
   })
 }
 
 export function addRole(data) {
   return request({
-    url: '/vue-element-admin/role',
+    url: '/permission/update',
     method: 'post',
     data
   })
@@ -24,15 +24,18 @@ export function addRole(data) {
 
 export function updateRole(id, data) {
   return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'put',
+    url: `/permission/update`,
+    method: 'post',
     data
   })
 }
 
 export function deleteRole(id) {
   return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'delete'
+    url: `/permission/delete`,
+    method: 'delete',
+    params: {
+      id
+    }
   })
 }

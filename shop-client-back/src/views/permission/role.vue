@@ -5,17 +5,17 @@
     <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
       <el-table-column align="center" label="角色 ID" width="220">
         <template slot-scope="scope">
-          {{ scope.row.key }}
+          {{ scope.row.id }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="角色名称" width="220">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          {{ scope.row.permission }}
         </template>
       </el-table-column>
       <el-table-column align="header-center" label="描述">
         <template slot-scope="scope">
-          {{ scope.row.description }}
+          {{ scope.row.desc }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
@@ -26,28 +26,17 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'Edit Role':'New Role'">
+    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'编辑角色':'新增角色'">
       <el-form :model="role" label-width="80px" label-position="left">
-        <el-form-item label="Name">
-          <el-input v-model="role.name" placeholder="角色名称" />
+        <el-form-item label="角色名称">
+          <el-input v-model="role.permission" placeholder="角色名称" />
         </el-form-item>
-        <el-form-item label="Desc">
+        <el-form-item label="角色描述">
           <el-input
-            v-model="role.description"
+            v-model="role.desc"
             :autosize="{ minRows: 2, maxRows: 4}"
             type="textarea"
             placeholder="角色描述"
-          />
-        </el-form-item>
-        <el-form-item label="菜单">
-          <el-tree
-            ref="tree"
-            :check-strictly="checkStrictly"
-            :data="routesData"
-            :props="defaultProps"
-            show-checkbox
-            node-key="path"
-            class="permission-tree"
           />
         </el-form-item>
       </el-form>
@@ -62,7 +51,7 @@
 <script>
 import path from 'path'
 import { deepClone } from '@/utils'
-import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/role'
+import { getRoles, addRole, deleteRole, updateRole } from '@/api/role'
 
 const defaultRole = {
   key: '',
@@ -83,6 +72,11 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'title'
+      },
+      permission: {
+        id: null,
+        permission: '',
+        desc: ''
       }
     }
   },
@@ -93,15 +87,15 @@ export default {
   },
   created() {
     // Mock: get all routes and roles list from server
-    this.getRoutes()
+    // this.getRoutes()
     this.getRoles()
   },
   methods: {
-    async getRoutes() {
-      const res = await getRoutes()
-      this.serviceRoutes = res.data
-      this.routes = this.generateRoutes(res.data)
-    },
+    // async getRoutes() {
+    //   const res = await getRoutes()
+    //   this.serviceRoutes = res.data
+    //   this.routes = this.generateRoutes(res.data)
+    // },
     async getRoles() {
       const res = await getRoles()
       this.rolesList = res.data
@@ -169,13 +163,13 @@ export default {
       })
     },
     handleDelete({ $index, row }) {
-      this.$confirm('Confirm to remove the role?', 'Warning', {
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
+      this.$confirm('确认删除角色?', '警告', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
         type: 'warning'
       })
         .then(async() => {
-          await deleteRole(row.key)
+          await deleteRole(row.id)
           this.rolesList.splice($index, 1)
           this.$message({
             type: 'success',
@@ -204,35 +198,29 @@ export default {
     async confirmRole() {
       const isEdit = this.dialogType === 'edit'
 
-      const checkedKeys = this.$refs.tree.getCheckedKeys()
-      this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)
+      // const checkedKeys = this.$refs.tree.getCheckedKeys()
+      // this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)
 
       if (isEdit) {
-        await updateRole(this.role.key, this.role)
-        for (let index = 0; index < this.rolesList.length; index++) {
-          if (this.rolesList[index].key === this.role.key) {
-            this.rolesList.splice(index, 1, Object.assign({}, this.role))
-            break
-          }
-        }
+        await updateRole(this.role)
+        location.reload()
       } else {
-        const { data } = await addRole(this.role)
-        this.role.key = data.key
-        this.rolesList.push(this.role)
+        await addRole(this.role)
       }
 
-      const { description, key, name } = this.role
+      const { desc, id, permission } = this.role
       this.dialogVisible = false
       this.$notify({
         title: 'Success',
         dangerouslyUseHTMLString: true,
         message: `
-            <div>Role Key: ${key}</div>
-            <div>Role Name: ${name}</div>
-            <div>Description: ${description}</div>
+            <div>Role Key: ${id}</div>
+            <div>Role Name: ${permission}</div>
+            <div>Description: ${desc}</div>
           `,
         type: 'success'
       })
+      location.reload()
     },
     // reference: src/view/layout/components/Sidebar/SidebarItem.vue
     onlyOneShowingChild(children = [], parent) {

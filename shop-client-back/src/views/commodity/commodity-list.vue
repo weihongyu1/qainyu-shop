@@ -48,10 +48,13 @@
             <el-form-item label="商品库存">
               <span>{{ props.row.stock }}</span>
             </el-form-item>
+            <el-form-item label="商品价格">
+              <span>{{ props.row.price }}</span>
+            </el-form-item>
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column prop="id" label="商品ID" width="100" />
+      <el-table-column prop="id" label="商品ID" width="60" />
       <el-table-column prop="commodityName" label="商品名称" :show-overflow-tooltip="true" />
       <el-table-column
         prop="category"
@@ -72,6 +75,7 @@
       <el-table-column prop="shipAddress" label="商品地域" :show-overflow-tooltip="true" />
       <el-table-column prop="desc" label="商品描述" :show-overflow-tooltip="true" />
       <el-table-column prop="stock" width="60" label="库存" />
+      <el-table-column prop="price" label="价格" width="80" />
       <el-table-column label="操作">
         <template slot-scope="scope">
           <!--          编辑-->
@@ -97,7 +101,10 @@
           <el-input v-model="commdity.shipAddress" placeholder="商品地域" />
         </el-form-item>
         <el-form-item label="商品库存">
-          <el-input v-model="commdity.stock" placeholder="商品库存" type="number" />
+          <el-input v-model="commdity.stock" placeholder="商品库存" />
+        </el-form-item>
+        <el-form-item label="商品库存">
+          <el-input v-model="commdity.price" placeholder="商品价格" />
         </el-form-item>
         <el-form-item label="商品描述">
           <el-input
@@ -128,7 +135,7 @@
 </template>
 
 <script>
-import { getAllCommodity, takeDownCommodity, takeUpCommodity, takeUpCommodityList } from '@/api/commodity'
+import { getAllCommodity, takeDownCommodity, takeUpCommodityList } from '@/api/commodity'
 
 export default {
   name: 'CommodityList',
@@ -153,7 +160,8 @@ export default {
         takeUpDate: '',
         shipAddress: '',
         desc: '',
-        stock: 0
+        stock: 0,
+        price: 1.00
       },
       commodities: [],
       commodityId: 0
@@ -166,7 +174,7 @@ export default {
       })
     },
     filterType(value, row, column) {
-      return row.type === value
+      return row.category === value
     },
     handleEdit(row) {
       this.commdity = {
@@ -177,7 +185,8 @@ export default {
         takeUpDate: row.takeUpDate,
         shipAddress: row.shipAddress,
         desc: row.desc,
-        stock: row.stock
+        stock: row.stock,
+        price: row.price
       }
       this.dialogEditType = 'edit'
       this.dialogEditVisible = true
@@ -203,7 +212,8 @@ export default {
         takeUpDate: row.takeUpDate,
         shipAddress: row.shipAddress,
         desc: row.desc,
-        stock: row.stock
+        stock: row.stock,
+        price: row.price
       }
       this.commodityId = row.commodityId
       this.dialogDelVisible = true

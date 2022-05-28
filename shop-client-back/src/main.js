@@ -17,6 +17,7 @@ import router from './router'
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
+import permission from '@/directive/permission/index.js' // 权限判断指令
 
 import * as filters from './filters' // global filters
 import { provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, CodeToText, TextToCode } from 'element-china-area-data'
@@ -37,7 +38,7 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   locale: zh_CN // 如果使用中文，无需设置，请删除
 }).use(provinceAndCityData).use(regionData).use(provinceAndCityDataPlus)
-  .use(regionDataPlus).use(CodeToText).use(TextToCode)
+  .use(regionDataPlus).use(CodeToText).use(TextToCode).use(permission)
 
 // register global utility filters
 Object.keys(filters).forEach(key => {

@@ -7,6 +7,9 @@
       <el-form-item label="商品地域">
         <el-input v-model="form.shipAddress" />
       </el-form-item>
+      <el-form-item label="商品价格">
+        <el-input v-model="form.price" />
+      </el-form-item>
       <el-form-item label="即时销售">
         <el-switch v-model="form.delivery" active-text="是" inactive-text="否" />
       </el-form-item>
@@ -28,7 +31,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="商品库存">
-        <el-input v-model="form.shipAddress" />
+        <el-input v-model="form.stock" />
       </el-form-item>
       <el-form-item label="商品描述">
         <el-input v-model="form.desc" type="textarea" />
@@ -57,7 +60,8 @@ export default {
         category: '',
         shipAddress: '',
         desc: '',
-        stock: 0
+        stock: 0,
+        price: 1.00
       },
       selectedOptions: []
     }

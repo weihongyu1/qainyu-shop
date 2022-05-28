@@ -173,6 +173,18 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/pay',
+    component: Layout,
+    children: [
+      {
+        path: 'pay',
+        component: () => import('@/views/pay/index'),
+        name: 'Pay',
+        meta: { title: '支付管理', icon: 'user' }
+      }
+    ]
+  },
+  {
     path: '/error',
     component: Layout,
     redirect: 'noRedirect',
