@@ -1,4 +1,4 @@
-package com.why.shopserver.service;
+package com.why.shopServer.service;
 
 /**
  * @InterfaceName：UserService

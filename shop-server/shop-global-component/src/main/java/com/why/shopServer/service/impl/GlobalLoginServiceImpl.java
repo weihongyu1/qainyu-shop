@@ -1,6 +1,6 @@
-package com.why.service.impl;
+package com.why.shopServer.service.impl;
 
-import com.why.service.GlobalLoginService;
+import com.why.shopServer.service.GlobalLoginService;
 import com.why.shopServer.user.pojo.UserLoginList;
 import com.why.shopServer.user.repository.UserLoginListRepository;
 import org.springframework.beans.factory.annotation.Autowired;

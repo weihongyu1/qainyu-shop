@@ -1,4 +1,4 @@
-package com.why.shopserver.config;
+package com.why.shopServer.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

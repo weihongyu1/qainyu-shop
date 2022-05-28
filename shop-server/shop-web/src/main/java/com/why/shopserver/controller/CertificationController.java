@@ -5,11 +5,12 @@ import com.why.shopServer.commonenum.StatusEnum;
 import com.why.shopServer.vo.ResultVo;
 import com.why.shopServer.vo.UserLoginVo;
 import com.why.shopServer.vo.UserRegisterVo;
-import com.why.shopserver.service.impl.UserServiceImpl;
+import com.why.shopServer.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

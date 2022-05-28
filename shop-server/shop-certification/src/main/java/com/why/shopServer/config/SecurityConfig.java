@@ -1,9 +1,9 @@
-package com.why.shopserver.config;
+package com.why.shopServer.config;
 
-import com.why.shopserver.component.RestAuthenticationEntryPoint;
-import com.why.shopserver.component.RestfulAccessDeniedHandler;
-import com.why.shopserver.filter.JwtAuthenticationTokenFilter;
-import com.why.shopserver.service.impl.UserDetailServiceImpl;
+import com.why.shopServer.component.RestAuthenticationEntryPoint;
+import com.why.shopServer.component.RestfulAccessDeniedHandler;
+import com.why.shopServer.filter.JwtAuthenticationTokenFilter;
+import com.why.shopServer.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

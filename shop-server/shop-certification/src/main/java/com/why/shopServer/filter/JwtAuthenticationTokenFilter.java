@@ -1,8 +1,8 @@
-package com.why.shopserver.filter;
+package com.why.shopServer.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.why.shopServer.util.JwtUtil;
-import com.why.shopserver.service.impl.UserDetailServiceImpl;
+import com.why.shopServer.service.impl.UserDetailServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

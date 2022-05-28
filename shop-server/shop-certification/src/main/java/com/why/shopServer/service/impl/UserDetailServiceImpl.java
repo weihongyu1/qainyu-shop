@@ -1,4 +1,4 @@
-package com.why.shopserver.service.impl;
+package com.why.shopServer.service.impl;
 
 import com.why.shopServer.user.pojo.UserLogin;
 import com.why.shopServer.user.repository.UserLoginRepository;

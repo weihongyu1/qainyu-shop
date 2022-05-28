@@ -1,11 +1,11 @@
-package com.why.shopserver.service.impl;
+package com.why.shopServer.service.impl;
 
 import com.why.shopServer.user.pojo.UserLogin;
 import com.why.shopServer.user.pojo.UserLoginList;
 import com.why.shopServer.user.repository.UserLoginListRepository;
 import com.why.shopServer.user.repository.UserLoginRepository;
 import com.why.shopServer.util.JwtUtil;
-import com.why.shopserver.service.UserService;
+import com.why.shopServer.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
