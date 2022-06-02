@@ -52,6 +52,8 @@ public class UserServiceImpl implements UserService {
         UserLoginList userLoginList = userLoginListRepository.findUserLoginListByUId(uId);
         if (userLoginList != null){
             userLoginListRepository.save(new UserLoginList(userLoginList.getId(), uId, new Date()));
+        } else {
+            userLoginListRepository.save(new UserLoginList(null, uId, new Date()));
         }
 
         //生成JWT

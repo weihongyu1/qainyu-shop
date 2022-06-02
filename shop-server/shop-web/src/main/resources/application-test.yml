@@ -2,8 +2,8 @@
 spring:
   datasource:
     username: root
-    password: Why190810
-    url: jdbc:mysql://10.0.8.2:3306/qianyu_shop?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
+    password:
+    url: jdbc:mysql://106.52.60.176:3306/qianyu_shop?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   # redis 配置
