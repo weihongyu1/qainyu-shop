@@ -1,0 +1,19 @@
+#----- 默认（公有）配置
+# 地址，默认localhost
+host = 106.52.60.176
+# 端口，默认6379
+port = 6379
+# 超时
+timeout = 3000
+# 连接超时，默认timeout
+connectionTimeout = 3000
+# 读取超时，默认timeout
+soTimeout = 3000
+# 密码，默认无
+password = brysj$@!HHRHL
+# 数据库序号，默认0
+database = 0
+# 客户端名，默认"Hutool"
+clientName = Hutool
+# SSL连接，默认false
+ssl = false;

@@ -12,6 +12,7 @@ import com.why.shopServer.user.repository.UserLoginRepository;
 import com.why.shopServer.util.IpUtil;
 import com.why.shopServer.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,13 +49,16 @@ public class LoggerFilter implements javax.servlet.Filter {
 
         //刷新登录
         String username = jwtUtil.getUserNameFromToken(jwtUtil.getToken(request));
-        UserLogin userLogin = userLoginRepository.findByUsername(username);
-        if (userLoginListRepository.findUserLoginListByUId(userLogin.getId()) == null){
-            userLoginListRepository.save(new UserLoginList(null, userLogin.getId(), new Date()));
-        } else {
-            userLoginListRepository.save(new UserLoginList(
-                    userLoginListRepository.findUserLoginListByUId(userLogin.getId()).getId(),
-                    userLogin.getId(), new Date()));
+        if (!StringUtils.isBlank(username)){
+            UserLogin userLogin = userLoginRepository.findByUsername(username);
+            log.info(userLogin.toString());
+            if (userLoginListRepository.findUserLoginListByUId(userLogin.getId()) == null){
+                userLoginListRepository.save(new UserLoginList(null, userLogin.getId(), new Date()));
+            } else {
+                userLoginListRepository.save(new UserLoginList(
+                        userLoginListRepository.findUserLoginListByUId(userLogin.getId()).getId(),
+                        userLogin.getId(), new Date()));
+            }
         }
 
         filterChain.doFilter(request, response);

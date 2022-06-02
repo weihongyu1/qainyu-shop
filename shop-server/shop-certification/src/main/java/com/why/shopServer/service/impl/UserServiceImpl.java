@@ -49,9 +49,13 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(token);
 
         Integer uId = userLoginRepository.findByUsername(username).getId();
-        Integer loginListId = userLoginListRepository.findUserLoginListByUId(uId).getId();
-        userLoginListRepository.save(new UserLoginList(loginListId, uId, new Date()));
+        UserLoginList userLoginList = userLoginListRepository.findUserLoginListByUId(uId);
+        if (userLoginList != null){
+            userLoginListRepository.save(new UserLoginList(userLoginList.getId(), uId, new Date()));
+        }
+
         //生成JWT
+        log.info("jwt" + jwtUtil.generateToken(userDetails));
         return jwtUtil.generateToken(userDetails);
     }
 

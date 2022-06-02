@@ -16,7 +16,6 @@ public interface UserLoginRepository extends JpaRepository<UserLogin,Integer> {
 
     String table = "user_login";
 
-    @NonNull
     UserLogin findByUsername(String username);
 
     UserLogin findUserLoginById(Integer id);

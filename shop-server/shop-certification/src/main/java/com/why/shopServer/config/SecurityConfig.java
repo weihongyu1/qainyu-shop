@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/auths/login","/auths/register").permitAll()//不需要通过登录验证就可以被访问的资源路径
+                .antMatchers("/auths/login","/auths/register","/redis").permitAll()//不需要通过登录验证就可以被访问的资源路径
                 .anyRequest().authenticated();
         //添加自定义未授权和未登录结果返回
         http.exceptionHandling()
