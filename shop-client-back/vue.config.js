@@ -39,7 +39,7 @@ module.exports = {
     proxy: {
       // 将http://localhost:8081替换成/api
       '/api': {
-        target: 'http://localhost:8888',
+        target: 'http://106.52.60.176:8889',
         changeOrigin: true,
         ws: false,
         pathRewrite: {
